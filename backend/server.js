@@ -1,13 +1,19 @@
 const express = require('express');
+const ENV_VARS = require('../config/envVars');
+const connectDB = require('../config/db');
+const authRoutes = require('./routes/authRoutes');
+
 const app = express();
 
 app.use('/api/v1/auth', authRoutes);
 
+const PORT = ENV_VARS.PORT;
 app.listen(4848, (err)=> {
     if(err){
         console.log("Error listening to the server", err);
     }
     else{
-        console.log("Listening to the server at 4848");
+        console.log(`Listening to the server at ${PORT}`);
+        connectDB();
     }
 })
