@@ -1,6 +1,6 @@
 const UserModel = require('../models/userModels');
-const bcryptjs = require('bcryptjs');
-
+const generateTokenAndSetCookie = require('../utils/generateToken');
+const bcryptjs = require('bcryptjs')
 
 const signupController = async (req , res) => {
     try{
@@ -36,15 +36,14 @@ const signupController = async (req , res) => {
 
         const image = PROFILE_PICS[Math.floor(Math.random() * PROFILE_PICS.length)];
 
-        const salt = await bcryptjs.genSalt(10);
-        const hashedPassword = await bcryptjs.hash(password, salt);
-
         const newUser = new UserModel({
             username,
             email,
-            password: hashedPassword,
+            password,
             image
         })
+
+        generateTokenAndSetCookie(newUser._id, res);
 
         await newUser.save();
 
@@ -68,9 +67,43 @@ const signupController = async (req , res) => {
 }
 const loginController = async (req , res) => {
     try{
+
+        const {email, password} = req.body;
+
+        if(!email || !password){
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            });
+        }
+
+        const user = await UserModel.findOne({email: email});
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "No user registred with this email, signup instead"
+            });
+        }
+
+        const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+
+        if(!isPasswordCorrect){
+            return res.status(404).json({
+                success: false,
+                message: "Invalid email or password"
+            })
+        }
+
+        generateTokenAndSetCookie(user._id, res);
+
         res.status(200).json({
             success: true,
-            message: 'User Logged in successfully'
+            message: 'User logged in successfully',
+            user: {
+                ...user._doc,
+                password: "",
+            }
         })
     }
     catch(err){
@@ -84,6 +117,9 @@ const loginController = async (req , res) => {
 }
 const logoutController = async (req , res) => {
     try{
+
+        res.clearCookie("jwt-netflix");
+
         res.status(200).json({
             success: true,
             message: 'User logged out successfully'

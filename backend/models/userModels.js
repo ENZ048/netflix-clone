@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
     username: {
@@ -24,7 +25,7 @@ const userSchema = mongoose.Schema({
             validator: function(pass){
                 return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(pass);
             },
-            message: (props) => `${props.value} is not a valid Password!`
+            message: (props) => `${props.value} is not Strong enough! Enter a strong password`
         }
     },
     image:{
@@ -36,6 +37,12 @@ const userSchema = mongoose.Schema({
         default: []
     }
 });
+
+userSchema.pre('save', async function() {
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(this.password, salt);
+    this.password = hashedPassword;
+})
 
 const UserModel = mongoose.model('UserModel', userSchema);
 
