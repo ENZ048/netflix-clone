@@ -2,12 +2,14 @@ const express = require('express');
 const ENV_VARS = require('./config/envVars');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const movieRoutes = require('./routes/movieRoutes');
 
 const app = express();
 
 app.use(express.json());
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/movie', movieRoutes);
 
 const PORT = ENV_VARS.PORT;
 app.listen(PORT, (err)=> {
