@@ -1,19 +1,18 @@
 const fetchFromTMDB = require('../services/tmdb.service')
 
-const getTrendingMovie = async (req, res) => {
+const getTrendingTv = async (req, res) => {
     try{
-        const data = await fetchFromTMDB('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1');
-        // console.log(data);
+        const data = await fetchFromTMDB('https://api.themoviedb.org/3/tv/popular?language=en-US&page=1');
         const randomMovie = data.results[Math.floor(Math.random() * data.results?.length)];
 
         res.status(200).json({
             success: true,
-            message: "Trending movie fetched successfully",
+            message: "Trending Tv fetched successfully",
             content: randomMovie
         })
     }
     catch(err){
-        console.log("Error in fetching trending movie", err);
+        console.log("Error in fetching trending tv", err);
         res.status(500).json({
             success: false,
             message: "Internal Server Error"
@@ -24,7 +23,7 @@ const getTrendingMovie = async (req, res) => {
 const  getTrailers = async(req,res) => {
     const {id} = req.params;
     try{
-        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`);
+        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`);
 
         res.status(200).json({
             success: true,
@@ -46,10 +45,10 @@ const  getTrailers = async(req,res) => {
     }
 }
 
-const  getMovieDetails = async(req,res) => {
+const  getTvDetails = async(req,res) => {
     const {id} = req.params;
     try{
-        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}?language=en-US`);
+        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/tv/${id}?language=en-US`);
 
         res.status(200).json({
             success: true,
@@ -71,19 +70,19 @@ const  getMovieDetails = async(req,res) => {
     }
 }
 
-const  getSimilarMovies = async(req,res) => {
+const  getSimilarTvs = async(req,res) => {
     const {id} = req.params;
     try{
-        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`);
+        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`);
 
         res.status(200).json({
             success: true,
-            message: "Similar movies fetched successfully",
+            message: "Similar tvs fetched successfully",
             content: data
         })
     }
     catch(err){
-        console.log("Error in fetching similar movies", err);
+        console.log("Error in fetching similar tvs", err);
         res.status(500).json({
             success: false,
             message: "Internal Server Error"
@@ -91,19 +90,19 @@ const  getSimilarMovies = async(req,res) => {
     }
 }
 
-const  getMoviesByCategory = async(req,res) => {
+const  getTvsByCategory = async(req,res) => {
     const {category} = req.params;
     try{
-        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`);
+        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`);
 
         res.status(200).json({
             success: true,
-            message: "Movies fetched by category successfully",
+            message: "Tvs fetched by category successfully",
             content: data
         })
     }
     catch(err){
-        console.log("Error in fetching movies by category", err);
+        console.log("Error in fetching tvs by category", err);
         res.status(500).json({
             success: false,
             message: "Internal Server Error"
@@ -111,4 +110,4 @@ const  getMoviesByCategory = async(req,res) => {
     }
 }
 
-module.exports = {getTrendingMovie, getTrailers, getMovieDetails, getSimilarMovies, getMoviesByCategory};
+module.exports = {getTrendingTv, getTrailers, getSimilarTvs, getTvDetails, getTvsByCategory};
