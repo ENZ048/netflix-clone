@@ -1,10 +1,12 @@
 const express = require('express');
-const ENV_VARS = require('./config/envVars');
-const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
+
 const authRoutes = require('./routes/authRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const tvRoutes = require('./routes/tvRoutes');
-const cookieParser = require('cookie-parser');
+
+const ENV_VARS = require('./config/envVars');
+const connectDB = require('./config/db');
 const protectRoute = require('./middleware/protectRoute');
 
 const app = express();
