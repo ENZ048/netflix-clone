@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const tvRoutes = require('./routes/tvRoutes');
+const searchRoutes = require('./routes/searchRoutes');
 
 const ENV_VARS = require('./config/envVars');
 const connectDB = require('./config/db');
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/movie', protectRoute, movieRoutes);
 app.use('/api/v1/tv', protectRoute, tvRoutes);
+app.use('/api/v1/search', protectRoute, searchRoutes);
 
 const PORT = ENV_VARS.PORT;
 app.listen(PORT, (err)=> {
