@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./LandingPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronRight, Tv, Download, Earth, User } from "lucide-react";
 import {
   Accordion,
@@ -10,22 +10,23 @@ import {
   Container,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import axios from "axios";
 
 export default function LandingPage() {
   const [email, setEmail] = useState("");
   const [content, setContent] = useState([]);
+  const navigate = useNavigate();
 
   const handleFormSubmit = (e) => {
-    e.preventDeafault();
+    e.preventDefault();
+    navigate("/signup?email=" + email);
   };
 
   useEffect(() => {
     const fetchTrending = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5001/api/v1/trendingIndia"
+          "/api/v1/trendingIndia"
         );
         console.log(res.data.content);
         setContent(res.data.content);

@@ -149,7 +149,7 @@
   transform: scale(1.1);
 }
 
-.trending-item img {
+.trending-item img {  
   width: 200px;
   border-radius: 8px;
 }

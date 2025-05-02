@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Auth.css";
+import { useAuthStore } from "../../store/authUser";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const {searchParams} = new URL(document.location);
+  const emailValue = searchParams.get('email');
+  const [email, setEmail] = useState(emailValue || "");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const {signup} = useAuthStore();
+
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(email,username, password);
+    signup({email, username, password});
   };
 
   return (
@@ -67,12 +72,12 @@ export default function LoginPage() {
               />
             </div>
 
-            <button className="login-button">Login</button>
+            <button className="login-button">Signup</button>
 
             <div className="link">
               Already have an account?{" "}
               <Link to={"/login"} className="highlight-link">
-                Sign up
+                Login
               </Link>
             </div>
           </form>
