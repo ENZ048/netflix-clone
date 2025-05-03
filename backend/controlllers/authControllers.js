@@ -56,13 +56,25 @@ const signupController = async (req , res) => {
             }
         })
     }
-    catch(err){
+    catch (err) {
         console.log('Error in signup', err);
+    
+        let errorMessage = 'Error in signing up the user';
+    
+        if (err.name === 'ValidationError') {
+            const messages = Object.values(err.errors).map(val => val.message);
+            errorMessage = messages.join(', ');
+        }
+    
+        if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
+            errorMessage = 'Email already exists';
+        }
+    
         res.status(500).json({
             success: false,
-            message: 'Error in signing up  the user',
+            message: errorMessage,
             data: err
-        })
+        });
     }
 }
 const loginController = async (req , res) => {

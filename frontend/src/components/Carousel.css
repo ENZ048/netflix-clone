@@ -1,0 +1,57 @@
+.trending-wrapper, .more-reasons-wrapper{
+    margin: auto;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+  
+  .trending-container {
+    padding: 20px;
+    color: white;
+    width: 70%;
+  }
+  
+  .trending-title, .reasons-title {
+    font-size: 28px;
+    margin-bottom: 2rem;
+    font-weight: 800;
+  }
+  
+  .trending-carousel {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+  
+  .trending-item {
+    position: relative;
+    min-width: 150px;
+    flex-shrink: 0;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+  }
+  
+  .trending-item:hover{
+    transform: scale(1.1);
+  }
+  
+  .trending-item img {  
+    width: 200px;
+    border-radius: 8px;
+  }
+  
+  .trending-rank {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }

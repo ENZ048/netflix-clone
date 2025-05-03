@@ -94,7 +94,8 @@ const  getSimilarMovies = async(req,res) => {
 const  getMoviesByCategory = async(req,res) => {
     const {category} = req.params;
     try{
-        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`);
+        const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${category}?language=en-US&region=IN&page=1`);
+
 
         res.status(200).json({
             success: true,

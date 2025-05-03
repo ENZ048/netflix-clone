@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
             validator: function(pass){
                 return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(pass);
             },
-            message: (props) => `${props.value} is not Strong enough! Enter a strong password`
+            message: () => `Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.`
         }
     },
     image:{
